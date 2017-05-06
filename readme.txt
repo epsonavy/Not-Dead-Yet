@@ -37,4 +37,4 @@ Run command line “node CreateDb.js” (in root directory)
 
 ### How to run
 
-nom start
+npm start

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1(style="font-size:20pt;")
+    a(href=".") Not-Dead-Yet...
+  h2 ...But time to check-in: #{email}
+  form(method='post' action='/save')
+    p
+      label(for='e-mail') Current Email
+      input(id="e-mail" type="text" name="email" placeholder="some_user@somewhere.com")
+    p
+      label(for='to-notify') Let-Know List:
+      input(id="e-mail" type="text" name="emails" placeholder="Comma separated emails")
+    p
+      label(for='message') Message
+    textarea(name='message' id='message' style="width:2.5in;height:1.94in;") Current message that would be sent if you don't check-in
+    p
+      button Check-in

@@ -4,19 +4,19 @@ Use the following instructions to upgrade Node.js version on a Mac.
 
 Clear NPM's cache:
 
-````sudo npm cache clean -f
+````sudo npm cache clean -f````
 
 Install a little helper called ’n’:
 
-````sudo npm install -g n
+````sudo npm install -g n````
 
 Install latest stable Node.js version:
 
-````sudo n stable
+````sudo n stable````
 
 ## Install dependencies
 
-````npm install
+````npm install````
 
 ## Database setup required
 
@@ -26,4 +26,4 @@ Run command line “node CreateDb.js” (in root directory)
 
 ### How to run
 
-````npm start
+````npm start````

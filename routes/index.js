@@ -7,14 +7,14 @@ router.post('/save', function(req, res, next) {
     var data = {
         EMAIL : req.param('email'),
         NOTIFY_LIST : req.param('emails'),
-        LAST_CHECK_IN : Date.now(),
-        LAST_EMAIL_SENT : Date.now(),
+        LAST_CHECK_IN : new Date(),
+        LAST_EMAIL_SENT : new Date(),
         MESSAGE : req.param('message')
     };
 
     db.query('INSERT INTO USER SET ?', data, function (error, result, fields) {
-      if (error) throw error;
-      console.log('Inserted id : ' + result.insertId);
+        if (error) throw error;
+        console.log('Inserted id : ' + result.insertId);
     });
 
     res.send('Your information has been recorded!');

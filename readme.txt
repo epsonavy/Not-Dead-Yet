@@ -9,7 +9,7 @@ Name: Yitao Zhao     Student ID: 009805302
 our project github link: https://github.com/epsonavy/Not-Dead-Yet
 
 
-## Upgrade Node.js due to some module require Node.js > 0.6 version
+## Upgrade Node.js due to some modules require Node.js > 0.6 version
 
 Use the following instructions to upgrade Node.js version on a Mac.
 

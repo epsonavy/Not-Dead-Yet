@@ -6,8 +6,8 @@
 <body>
 <h1 style="font-size:20pt;"><a href=".">Not-Dead-Yet...</a></h1>
 <h2>...But letting people know when the time comes.</h2>
-<form method="post" action="/send">
-<p><label for='e-mail'>Email</label>:<input id="e-mail" type="text" name="email" placeholder="Used to send check-in email"/></p>
+<form method="post" action="/email">
+<p><label for='e-mail'>Email</label>:<input id="e-mail" type="text" name="email" placeholder="Used to send check-in email" required/></p>
 <p><label for='c-ost'>Cost</label>:<input id="c-ost" type="text" name="cost" value="$5" disabled='disabled'/></p>
 <p><label for='credit-card'>Credit Card</label>:<input id="credit-card" type="text" name="card" size="20" /></p>
 <p><label for='verify'>CVC</label>:<input id="verify" type="text" name="cvc" size="4" /></p>

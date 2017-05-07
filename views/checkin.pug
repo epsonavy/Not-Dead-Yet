@@ -1,18 +1,22 @@
 extends layout
 
 block content
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
   h1(style="font-size:20pt;")
     a(href=".") Not-Dead-Yet...
   h2 ...But time to check-in: #{email}
-  form(method='post' action='/save')
+  div
     p
       label(for='e-mail') Current Email
-      input(id="e-mail" type="text" name="email" placeholder="some_user@somewhere.com")
+      input(id="e-mail" type="email" name="email" placeholder="some_user@somewhere.com")
     p
       label(for='to-notify') Let-Know List:
-      input(id="e-mail" type="text" name="emails" placeholder="Comma separated emails")
+      input(id="to-notify" type="text" name="emails" placeholder="Comma separated emails")
     p
       label(for='message') Message
     textarea(name='message' id='message' style="width:2.5in;height:1.94in;") Current message that would be sent if you don't check-in
     p
-      button Check-in
+      button(onclick="start();") Check-in
+    p
+      div(id="msg" style="color:red;") Please fill in your information properly before click Check-in
+  script(src="javascripts/valid.js")

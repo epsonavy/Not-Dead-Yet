@@ -2,22 +2,59 @@ var express = require('express');
 var router = express.Router();
 var db = require('./db.js');
 
+
 /* POST save customer data */
 router.post('/save', function(req, res, next) {
-    var data = {
-        EMAIL : req.param('email'),
-        NOTIFY_LIST : req.param('emails'),
-        LAST_CHECK_IN : new Date(),
-        LAST_EMAIL_SENT : new Date(),
-        MESSAGE : req.param('message')
-    };
 
-    db.query('INSERT INTO USER SET ?', data, function (error, result, fields) {
-        if (error) throw error;
-        console.log('Inserted id : ' + result.insertId);
-    });
+    function validate(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
 
-    res.send('Your information has been recorded!');
+    var email_list_validated = true;
+    var x = req.body.emails;
+    if(x.match(",")) {
+        var emails = x.split(",");
+        emails.forEach(function (email) {
+            if (!validate(email.trim())) {
+                email_list_validated = false;
+            }
+        });
+    } else {
+        if (!validate(x.trim())) {
+            email_list_validated = false;
+        }
+    }
+
+    if (validate(req.body.email) && email_list_validated ) { 
+        var data = {
+            EMAIL : req.body.email,
+            NOTIFY_LIST : req.body.emails,
+            LAST_CHECK_IN : new Date(),
+            LAST_EMAIL_SENT : new Date(),
+            MESSAGE : req.body.message
+        };
+
+        db.query('SELECT LAST_CHECK_IN FROM USER WHERE EMAIL = "' + req.body.email + '"', function (error, result, fields) {
+            if (error) throw error;
+            console.log('SQL Found result : ' + JSON.stringify(result[0]));
+            if (result[0]['LAST_CHECK_IN'] == "0000-00-00 00:00:00") {
+                res.send('Saved! This is your first tiem to check-in');
+            } else {
+                res.send('Saved! Your last check-in was:' + result[0]['LAST_CHECK_IN']);
+            }
+        });
+
+        db.query('UPDATE USER SET ?', data, function (error, result, fields) {
+            if (error) throw error;
+            console.log('USER got updated LAST_CHECK_IN...');
+        });
+
+    } else {
+        res.send('Wrong input! Please enter correct email.');
+    }
+
+    
 });
 
 /* post mail request 

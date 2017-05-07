@@ -6,8 +6,20 @@ var db = require('./db.js');
 
 /* post mail request */
 router.post('/', sendCustomer);
+router.post('/all', sendAll);
 
 function sendCustomer(req, res) {
+
+    var data = {
+            EMAIL : req.body.email,
+            LAST_EMAIL_SENT : new Date()
+        };
+
+    db.query('INSERT INTO USER SET ?', data, function (error, result, fields) {
+        if (error) throw error;
+        console.log('New customer : ' + req.body.email);
+        console.log('Inserted id : ' + result.insertId);
+    });
 
     var toEmail = req.param('email');
     var subject = 'Not-Dead-Yet...Time to Check-in!';
@@ -17,18 +29,30 @@ function sendCustomer(req, res) {
     res.send('Thanks for using our service! Please check your email for futher instruction.');
 }   
 
+function sendAll(req, res) {
+
+    var customer = req.param('email');
+    var toEmails = req.param('emails');
+    var msg = req.param('message');
+    var subject = 'Notification : ' + customer + ' has not checked-in';
+    var htmlContent = 'Dear friend:<br><br>' + customer + 'has not checked-in with us during their check-in period. We are sending you the message below that was requested to be sent by ' + customer + ' if this happened.<br><br>' + msg + '<br><br>Best regrads,<br>Not-Dead-Yet Team';
+
+    emailJob(toEmails, subject, htmlContent);
+    res.send('Thanks for using our service! Please check your email for futher instruction.');
+} 
+
 function emailJob(toEmail, email_subject, htmlContent) {
 
     var transporter = nodemailer.createTransport({
-        service: 'Gmail',
+        service: config.email_type,
         auth: {
-            user: 'epso2017@gmail.com', // web master email
-            pass: '789789789' // password
+            user: config.outgoing_email, // outgoing mail server
+            pass: config.email_password // password
         }
     });
 
     var mailOptions = {
-        from: 'epso2017@gmail.com', // sender address
+        from: config.outgoing_email, // sender address
         to: toEmail, // customer email address
         subject: email_subject, // Subject line
         //text: text //, // plaintext body

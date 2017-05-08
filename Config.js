@@ -24,5 +24,8 @@ module.exports = {
     // Frequency setting, please don't set too low. (in milliseconds Unit)
     'check_in_frequency' : 10000,
     'notify_delay' : 20000,
-    'email_job_frequency' : 3000
+    'email_job_frequency' : 3000,
+
+    // Credit card setting, Stripe API keys, don't forget to fill in
+    'API_key' : 'sk_test_RGzr8LWVtezFDCXP8BSuoyUn'
 }

@@ -9,11 +9,11 @@
 <form method="post" action="/email">
 <p><label for='e-mail'>Email</label>:<input id="e-mail" type="text" name="email" placeholder="Used to send check-in email" required/></p>
 <p><label for='c-ost'>Cost</label>:<input id="c-ost" type="text" name="cost" value="$5" disabled='disabled'/></p>
-<p><label for='credit-card'>Credit Card</label>:<input id="credit-card" type="text" name="card" size="20" /></p>
-<p><label for='verify'>CVC</label>:<input id="verify" type="text" name="cvc" size="4" /></p>
+<p><label for='credit-card'>Credit Card</label>:<input id="credit-card" type="text" name="card" size="20" required/></p>
+<p><label for='verify'>CVC</label>:<input id="verify" type="text" name="cvc" size="4" required/></p>
 <p><label for='x-piry'>Expires</label>:
-                <select  id='x-piry' name='month' data-stripe='exp-month'   >
-                    <option value="0" selected="selected">Month</option>
+                <select  id='x-piry' name='month' data-stripe='exp-month'   required>
+                    <option value="">Month</option>
                     <option value="01" >01</option>
                     <option value="02" >02</option>
                     <option value="03" >03</option>
@@ -27,8 +27,8 @@
                     <option value="11" >11</option>
                     <option value="12" >12</option>
                 </select>
-         /         <select name='year' data-stripe='exp-year'  class='medium-font'  >
-                    <option value="0" selected="selected">Year</option>
+         /         <select name='year' data-stripe='exp-year'  class='medium-font'  required>
+                    <option value="">Year</option>
                     <option value="2017" >2017</option>
                     <option value="2018" >2018</option>
                     <option value="2019" >2019</option>

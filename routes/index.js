@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('./db.js');
-
+var config = require('../Config.js');
 
 /* POST save customer data */
 router.post('/save', function(req, res, next) {
@@ -12,8 +12,8 @@ router.post('/save', function(req, res, next) {
     }
 
     var email_list_validated = true;
-    var x = req.body.emails;
-    if(x.match(",")) {
+    var userEmail = req.body.emails;
+    if(userEmail.match(",")) {
         var emails = x.split(",");
         emails.forEach(function (email) {
             if (!validate(email.trim())) {
@@ -26,7 +26,8 @@ router.post('/save', function(req, res, next) {
         }
     }
 
-    if (validate(req.body.email) && email_list_validated ) { 
+    if (validate(userEmail.trim()) && email_list_validated ) { 
+
         var data = {
             EMAIL : req.body.email,
             NOTIFY_LIST : req.body.emails,

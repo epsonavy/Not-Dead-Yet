@@ -47,7 +47,6 @@ function newCustomer(req, res) {
                 if (result.length > 0) {
                     console.log('SQL: Found duplicated email, reject insert info to database');
                     res.send('This email has been registered! Please enter a new one.<br/><a href="javascript:history.back()">Go Back</a>');
-                    duplicated = true;
                 } else {
                     var data = {
                         EMAIL : userEmail

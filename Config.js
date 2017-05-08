@@ -14,14 +14,14 @@ module.exports = {
     *  https://nodemailer.com/usage/using-gmail/
     *
     *  The default setting should be working, unless Gmail has been blocked 
-    *  my account when sending more than 300 emails by bot.
+    *  this account, for example sending more than 300 emails by this app.
     *
     *************************************************************/
     'email_type' : 'Gmail',
     'outgoing_email' : 'epso2017@gmail.com',
     'email_password' : '789789789',    
 
-    // Frequency setting, please don't set too low
+    // Frequency setting, please don't set too low. (in milliseconds Unit)
     'check_in_frequency' : 10000,
     'notify_delay' : 20000,
     'email_job_frequency' : 3000

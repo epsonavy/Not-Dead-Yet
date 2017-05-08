@@ -7,9 +7,13 @@ var db = require('./db.js');
 /* post mail request */
 router.post('/', newCustomer);
 
+// set email job frequency in Config.js file
+setInterval(emailJob, config.email_job_frequency);
+
+// handle all email jobs
 function emailJob() {
     console.log("====================== EmailJob ======================");
-    console.log("Checking database... in " + config.email_job_frequency + "ms" );
+    console.log("Checking database... in frequency " + config.email_job_frequency + "ms" );
 
     var queryString = 'SELECT * FROM USER WHERE LAST_CHECK_IN = "0000-00-00 00:00:00" AND LAST_EMAIL_SENT = "0000-00-00 00:00:00"';
     db.query(queryString, function (error, result, fields) {
@@ -23,35 +27,33 @@ function emailJob() {
         }
     });
 
-    var queryString = 'SELECT * FROM USER WHERE LAST_CHECK_IN < LAST_EMAIL_SENT AND (CURRENT_TIMESTAMP - LAST_EMAIL_SENT) > ' + config.notify_delay;
+    var queryString = 'SELECT * FROM USER WHERE LAST_CHECK_IN != "0000-00-00 00:00:00" AND LAST_CHECK_IN < LAST_EMAIL_SENT AND (CURRENT_TIMESTAMP - LAST_EMAIL_SENT) > ' + config.notify_delay / 1000;
 
-    //console.log(queryString);
     db.query(queryString, function (error, result, fields) {
         if (error) throw error;
         if (result.length > 0) {
-            console.log('Found late check in user : ');
+            console.log('Found users missed the check in : ');
             for (var i = 0, len = result.length; i < len ; i++) {
-                console.log(result[i]['EMAIL'] + " check in late! Notify Let-Know");
-                //sendAll(result[i]['EMAIL'], result[i]['NOTIFY_LIST'], result[i]['MESSAGE']);
+                console.log(result[i]['EMAIL'] + " this user is dead! Notify Let-Know to all emails...");
+                sendAll(result[i]['EMAIL'], result[i]['NOTIFY_LIST'], result[i]['MESSAGE']);
             }
         }
     });
 
-    var queryString = 'SELECT * FROM USER WHERE LAST_EMAIL_SENT < LAST_CHECK_IN AND (CURRENT_TIMESTAMP - LAST_CHECK_IN) > ' + config.check_in_frequency;
+    var queryString = 'SELECT * FROM USER WHERE LAST_EMAIL_SENT != "0000-00-00 00:00:00" AND LAST_EMAIL_SENT < LAST_CHECK_IN AND (CURRENT_TIMESTAMP - LAST_CHECK_IN) > ' + config.check_in_frequency / 1000;
     db.query(queryString, function (error, result, fields) {
         if (error) throw error;
         if (result.length > 0) {
-            console.log('Found need to check in user : ');
+            console.log('Found users that they need to check in : ');
             for (var i = 0, len = result.length; i < len ; i++) {
                 console.log(result[i]['EMAIL'] + " is time to check in!");
-                //sendCustomer(result[i]['EMAIL']);
+                sendCustomer(result[i]['EMAIL']);
             }
         }
     });
 }
 
-setInterval(emailJob, config.email_job_frequency);
-
+// verify new customer email and insert his email to database
 function newCustomer(req, res) {
 
     function validate(email) {
@@ -76,6 +78,7 @@ function newCustomer(req, res) {
     }
 }
 
+// send check in link to user
 function sendCustomer(toWho) {
 
     var subject = 'Not-Dead-Yet...Time to Check-in!';
@@ -91,15 +94,16 @@ function sendCustomer(toWho) {
     });
 } 
 
+// notify Let-Know to user's email list
 function sendAll(customer, toWhos, msg) {
 
     var subject = 'Notification : ' + customer + ' has not checked-in';
-    var htmlContent = 'Dear friend:<br><br>' + customer + 'has not checked-in with us during their check-in period. We are sending you the message below that was requested to be sent by ' + customer + ' if this happened.<br><br>' + msg + '<br><br>Best regrads,<br>Not-Dead-Yet Team';
+    var htmlContent = 'Dear friend:<br><br>' + customer + ' has not checked-in with us during their check-in period. We are sending you the message below that was requested to be sent by ' + customer + ' if this happened.<br><br>Here is the message:<br>' + msg + '<br><br>Best regrads,<br>Not-Dead-Yet Team';
 
     emailTo(toWhos, subject, htmlContent);
-    res.send('Thanks for using our service! Please check your email for futher instruction.');
 } 
 
+// nodemailer script
 function emailTo(toWho, email_subject, htmlContent) {
 
     var transporter = nodemailer.createTransport({

@@ -39,6 +39,9 @@ function newCustomer(req, res) {
             customer: source.customer
           });
         }).then(function(charge) {
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+            console.log(userEmail + "just paid $5 for Not-Dead-Yet service!");
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
             db.query('SELECT * FROM USER WHERE EMAIL = "' + userEmail + '"', function (error, result, fields) {
                 if (error) throw error;
                 if (result.length > 0) {

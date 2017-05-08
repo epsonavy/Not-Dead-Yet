@@ -14,14 +14,14 @@ router.post('/save', function(req, res, next) {
     var email_list_validated = true;
     var userEmail = req.body.emails;
     if(userEmail.match(",")) {
-        var emails = x.split(",");
+        var emails = userEmail.split(",");
         emails.forEach(function (email) {
             if (!validate(email.trim())) {
                 email_list_validated = false;
             }
         });
     } else {
-        if (!validate(x.trim())) {
+        if (!validate(userEmail.trim())) {
             email_list_validated = false;
         }
     }
@@ -40,6 +40,7 @@ router.post('/save', function(req, res, next) {
             console.log('SQL: Found result : ' + JSON.stringify(result[0]));
             if (result[0]['LAST_CHECK_IN'] == "0000-00-00 00:00:00") {
                 res.send('Saved! This is your first time to check-in');
+                res.send('Your last check-in was:' + result[0]['LAST_CHECK_IN']);
             } else {
                 res.send('Saved! Your last check-in was:' + result[0]['LAST_CHECK_IN']);
             }

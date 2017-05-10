@@ -27,6 +27,11 @@ module.exports = {
     'email_job_frequency' : 3000,
 
     // Credit card setting, Stripe API keys, don't forget to fill in
-    'secret_key' : 'sk_test_RGzr8LWVtezFDCXP8BSuoyUn',
-    'public_key' : 'pk_test_OuteujQr7nmLCtvDqqPgdlRv'
+    "SECRET_KEY": "sk_test_RGzr8LWVtezFDCXP8BSuoyUn",
+    "PUBLISHABLE_KEY": "pk_test_OuteujQr7nmLCtvDqqPgdlRv",
+    "CHARGE_URL": "https://api.stripe.com/v1/charges",
+    "CHARGE_CURRENCY": "usd",
+    "CHARGE_DESCRIPTION": "Not Dead Yet service",
+    "CHARGE_USERAGENT": "CreditCardTester",
+    "TIMEOUT": 20
 }

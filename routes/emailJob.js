@@ -3,7 +3,7 @@ var router = express.Router();
 var config = require('../Config.js');
 var nodemailer = require('nodemailer');
 var db = require('./db.js');
-var stripe = require("stripe")(config.secret_key);
+var stripe = require("stripe")(config.SECRET_KEY);
 
 /* post mail request */
 router.post('/', newCustomer);

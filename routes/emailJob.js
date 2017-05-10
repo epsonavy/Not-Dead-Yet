@@ -3,7 +3,7 @@ var router = express.Router();
 var config = require('../Config.js');
 var nodemailer = require('nodemailer');
 var db = require('./db.js');
-var stripe = require("stripe")(config.API_key);
+var stripe = require("stripe")(config.secret_key);
 
 /* post mail request */
 router.post('/', newCustomer);
@@ -56,7 +56,7 @@ function newCustomer(req, res) {
                         console.log('SQL: Inserted new customer : ' + req.body.email);
                         console.log('SQL: Inserted id : ' + result.insertId);
                     });
-                    res.send('Thanks for using our service! Please check your email for futher instruction.<br/><a href="javascript:history.back()">Go Back</a>'); 
+                    res.send('$5 charged! Thanks for using our service! Please check your email for futher instruction.<br/><a href="javascript:history.back()">Go Back</a>'); 
                     }
             });
         }).catch(function(err) {

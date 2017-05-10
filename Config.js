@@ -27,5 +27,6 @@ module.exports = {
     'email_job_frequency' : 3000,
 
     // Credit card setting, Stripe API keys, don't forget to fill in
-    'API_key' : 'sk_test_RGzr8LWVtezFDCXP8BSuoyUn'
+    'secret_key' : 'sk_test_RGzr8LWVtezFDCXP8BSuoyUn',
+    'public_key' : 'pk_test_OuteujQr7nmLCtvDqqPgdlRv'
 }
